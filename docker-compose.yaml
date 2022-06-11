@@ -1,0 +1,16 @@
+version: '3.3'
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+      - ./.m2:/root/.m2
+    working_dir: /app
+    command: sh run.sh
+    ports:
+#     The port in which the application runs on
+      - "8080:8080"
+#     Makes the debugger available to the IDE
+      - "5005:5005"
