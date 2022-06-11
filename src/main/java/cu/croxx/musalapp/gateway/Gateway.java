@@ -26,9 +26,6 @@ public class Gateway {
     private String name;
     @Ipv4Address
     private String ipv4;
-    @Size(max = 10)
-
-
     public Gateway() {
     }
 

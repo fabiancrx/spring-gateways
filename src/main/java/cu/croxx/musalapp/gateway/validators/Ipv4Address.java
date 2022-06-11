@@ -11,7 +11,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({FIELD})
 @Retention(RUNTIME)
-@Constraint(validatedBy = com.example.demo.common.validators.Ipv4AddressValidator.class)
+@Constraint(validatedBy = Ipv4AddressValidator.class)
 @Documented
 public @interface Ipv4Address {
 

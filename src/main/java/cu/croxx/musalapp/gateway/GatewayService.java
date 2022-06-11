@@ -1,5 +1,6 @@
 package cu.croxx.musalapp.gateway;
 
+import cu.croxx.musalapp.exceptions.InvalidArgumentsException;
 import cu.croxx.musalapp.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,11 @@ public class GatewayService {
         var exists = gatewayRepository.existsById(id);
 
         if (!exists) throw new NotFoundException("Gateway not found");
+        var hasSerialNumber = doesSerialNumberExists(gateway.getSerialNumber());
 
+        if (hasSerialNumber) {
+            throw new InvalidArgumentsException("Serial number already exists; please use a different serial number");
+        }
         gateway.setId(id);
 
         gatewayRepository.save(gateway);
@@ -45,7 +50,7 @@ public class GatewayService {
         var hasSerialNumber = doesSerialNumberExists(gateway.getSerialNumber());
 
         if (hasSerialNumber) {
-            throw new NotFoundException("Serial number already exists; please use a different serial number");
+            throw new InvalidArgumentsException("Serial number already exists; please use a different serial number");
         }
 
         return gatewayRepository.save(gateway);
