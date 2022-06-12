@@ -24,9 +24,9 @@ public class Peripheral {
     @NotBlank
     private String vendor;
     @Enumerated(EnumType.STRING)
-    @Column(length = 32, columnDefinition = "varchar(16) default 'OFFLINE'",nullable = false)
-    private Status status=Status.OFFLINE;
-    @Column( nullable = false, updatable = false)
+    @Column(length = 32, columnDefinition = "varchar(16) default 'OFFLINE'", nullable = false)
+    private Status status = Status.OFFLINE;
+    @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private Date created;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -40,9 +40,13 @@ public class Peripheral {
         this.gateway = gateway;
     }
 
-    public Peripheral(String vendor, Gateway gateway) {
+    public Peripheral(String vendor, Status status) {
         this.vendor = vendor;
-        this.gateway = gateway;
+        this.status = status;
+    }
+
+    public Peripheral(String vendor) {
+        this.vendor = vendor;
     }
 
     public Peripheral() {

@@ -6,10 +6,12 @@ import cu.croxx.musalapp.gateway.models.Peripheral;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class PeripheralService {
-    private static final int maxNumberOfDevicesPerGateway = 10;
+    public static final int maxNumberOfDevicesPerGateway = 10;
     private final PeripheralRepository peripheralRepository;
     private final GatewayRepository gatewayRepository;
 
@@ -21,8 +23,8 @@ public class PeripheralService {
             throw new NotFoundException("Gateway with id " + gatewayId + " not found");
         }
         var gateway = _gateway.get();
-
-        if (gateway.getPeripherals().size() >= maxNumberOfDevicesPerGateway) {
+        var currentPeripherals = gatewayRepository.countPeripherals(gatewayId);
+        if (currentPeripherals >= maxNumberOfDevicesPerGateway) {
             throw new TooManyPeripheralsException("The Gateway '" + gateway.getName() + "' has the maximum amount of peripherals " + maxNumberOfDevicesPerGateway);
         }
         peripheral.setGateway(gateway);
@@ -36,7 +38,7 @@ public class PeripheralService {
 
     public void edit(long id, Peripheral peripheral) {
         var exists = peripheralRepository.existsById(id);
-        if (!exists) throw new NotFoundException("Peripheral with id " + peripheral.getId() + " not found");
+        if (!exists) throw new NotFoundException("Peripheral not found");
         peripheral.setId(id);
         peripheralRepository.save(peripheral);
     }

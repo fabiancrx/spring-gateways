@@ -10,6 +10,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,12 +38,13 @@ public class GatewayService {
         var exists = gatewayRepository.existsById(id);
 
         if (!exists) throw new NotFoundException("Gateway not found");
-        var hasSerialNumber = doesSerialNumberExists(gateway.getSerialNumber());
+        var duplicateSerialNumber = doesSerialNumberExists(gateway.getSerialNumber());
 
-        if (hasSerialNumber) {
+        if (duplicateSerialNumber) {
             throw new InvalidArgumentsException("Serial number already exists; please use a different serial number");
         }
         gateway.setId(id);
+        if(gateway.getPeripherals()==null)gateway.setPeripherals(List.of());
 
         gatewayRepository.save(gateway);
 

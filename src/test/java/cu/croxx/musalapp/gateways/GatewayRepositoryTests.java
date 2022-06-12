@@ -1,8 +1,8 @@
 package cu.croxx.musalapp.gateways;
 
 
-import cu.croxx.musalapp.gateway.Gateway;
 import cu.croxx.musalapp.gateway.GatewayRepository;
+import cu.croxx.musalapp.gateway.models.Gateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

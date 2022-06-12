@@ -2,6 +2,7 @@ package cu.croxx.musalapp.gateway;
 
 
 import cu.croxx.musalapp.gateway.models.Gateway;
+import cu.croxx.musalapp.gateway.models.Peripheral;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,14 +14,17 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 @EnableSpringDataWebSupport
 public class GatewayConfig {
     @Bean
-    CommandLineRunner commandLineRunner(GatewayService service) {
+    CommandLineRunner commandLineRunner(GatewayService service,PeripheralService ps) {
         return args -> {
             var huawei = new Gateway(
                     "1234",
                     "Huawei P-S80",
                     "10.0.0.48"
             );
-            service.add(huawei);
+            var gw=service.add(huawei);
+            ps.addPeripheralToGateway(gw.getId(),new Peripheral("Microsoft"));
+            ps.addPeripheralToGateway(gw.getId(),new Peripheral("Apple"));
+
         };
 
     }

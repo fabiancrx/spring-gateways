@@ -32,7 +32,7 @@ public class Gateway {
     @Schema(description = "Must be a valid IPv4 address")
     private String ipv4;
     @Size(max = 10)
-    @OneToMany(mappedBy = "gateway", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "gateway", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private List<Peripheral> peripherals;
 
 
@@ -45,15 +45,14 @@ public class Gateway {
         this.ipv4 = ipv4;
     }
 
-    public Gateway(long id, String serialNumber, String name, String ipv4) {
-        this.id = id;
+    public Gateway(long id,String serialNumber, String name, String ipv4) {
+        this.id=id;
         this.serialNumber = serialNumber;
         this.name = name;
         this.ipv4 = ipv4;
     }
+    public Gateway(String serialNumber, String name, String ipv4, List<Peripheral> peripherals) {
 
-    public Gateway(long id, String serialNumber, String name, String ipv4, List<Peripheral> peripherals) {
-        this.id = id;
         this.serialNumber = serialNumber;
         this.name = name;
         this.ipv4 = ipv4;
