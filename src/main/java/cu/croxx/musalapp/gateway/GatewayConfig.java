@@ -1,6 +1,7 @@
 package cu.croxx.musalapp.gateway;
 
 
+import cu.croxx.musalapp.gateway.models.Gateway;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

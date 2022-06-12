@@ -1,5 +1,6 @@
 package cu.croxx.musalapp.gateway;
 
+import cu.croxx.musalapp.gateway.models.Gateway;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

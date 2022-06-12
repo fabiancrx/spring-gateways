@@ -3,9 +3,9 @@ package cu.croxx.musalapp.gateways;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cu.croxx.musalapp.exceptions.NotFoundException;
-import cu.croxx.musalapp.gateway.Gateway;
 import cu.croxx.musalapp.gateway.GatewayController;
 import cu.croxx.musalapp.gateway.GatewayService;
+import cu.croxx.musalapp.gateway.models.Gateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -65,7 +65,7 @@ public class GatewayControllerTest {
     @Test
     void browseReturnsListWithOneItem() throws Exception {
         List<Gateway> gateways = List.of(new Gateway());
-        var pagedResponse = new PageImpl<Gateway>(gateways);
+        var pagedResponse = new PageImpl<>(gateways);
         when(gatewayService.browse(any())).thenReturn(pagedResponse);
 
 

@@ -1,6 +1,7 @@
 package cu.croxx.musalapp.gateway;
 
 import cu.croxx.musalapp.exceptions.NotFoundException;
+import cu.croxx.musalapp.gateway.models.Gateway;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Pageable;
