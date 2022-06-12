@@ -2,6 +2,10 @@ package cu.croxx.musalapp.gateway;
 
 import cu.croxx.musalapp.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +26,8 @@ public class GatewayController {
     }
 
     @GetMapping
-    public List<Gateway> browse() {
-        return gatewayService.browse();
+    public Slice<Gateway> browse(@PageableDefault(size = 20) Pageable pageable) {
+        return gatewayService.browse(pageable);
     }
 
 
@@ -56,8 +60,6 @@ public class GatewayController {
     public void delete(@PathVariable long id) {
         gatewayService.delete(id);
     }
-
-
 
 
 }

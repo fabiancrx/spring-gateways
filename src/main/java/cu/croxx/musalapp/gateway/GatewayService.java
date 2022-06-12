@@ -3,10 +3,10 @@ package cu.croxx.musalapp.gateway;
 import cu.croxx.musalapp.exceptions.InvalidArgumentsException;
 import cu.croxx.musalapp.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,8 +19,9 @@ public class GatewayService {
     }
 
 
-    public List<Gateway> browse() {
-        return gatewayRepository.findAll();
+    public Slice<Gateway> browse(Pageable pageable) {
+
+        return gatewayRepository.findAll(pageable);
     }
 
 
