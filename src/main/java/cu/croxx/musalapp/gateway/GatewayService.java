@@ -3,9 +3,11 @@ package cu.croxx.musalapp.gateway;
 import cu.croxx.musalapp.exceptions.InvalidArgumentsException;
 import cu.croxx.musalapp.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.util.Optional;
 
@@ -58,7 +60,13 @@ public class GatewayService {
     }
 
     public void delete(long id) {
-        gatewayRepository.deleteById(id);
+        try {
+            gatewayRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+
+            throw new NotFoundException("Gateway not found");
+
+        }
     }
 
     private boolean doesSerialNumberExists(String serialNumber) {

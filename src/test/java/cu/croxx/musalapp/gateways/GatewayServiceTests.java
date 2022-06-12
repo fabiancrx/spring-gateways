@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest
@@ -67,4 +66,30 @@ public class GatewayServiceTests {
         Assertions.assertEquals(gatewayOnDb.get().getName(), edited.getName());
         Assertions.assertEquals(gatewayOnDb.get().getIpv4(), edited.getIpv4());
     }
+
+    @Test
+    public void doesNotDeleteGatewaysWithMissingId() {
+        //       Given
+        var sampleGateway =
+                service.add(new Gateway("sample", "TestName", "10.0.0.1"));
+//        When
+        NotFoundException thrown = Assertions.assertThrows(NotFoundException.class,
+                () -> service.delete(sampleGateway.getId() + 1), "NotFoundException");
+//        Then
+        Assertions.assertTrue(thrown.getMessage().contains("Gateway not found"));
+
+    }
+
+    @Test
+    public void DeletesGatewaysThatExists() {
+        //       Given
+        var sampleGateway =
+                service.add(new Gateway("sample", "TestName", "10.0.0.1"));
+//        When
+        service.delete(sampleGateway.getId());
+//        Then
+        Assertions.assertTrue(service.read(sampleGateway.getId()).isEmpty());
+
+    }
+
 }
