@@ -73,7 +73,7 @@ class GatewayListView extends StatelessWidget {
               error: (error) => ExceptionWidget(error, onTap: () {
                     ref.refresh(gatewayProvider);
                   }),
-              loading: (loading) => const CircularProgressIndicator.adaptive());
+              loading: (loading) => const Center(child:  CircularProgressIndicator.adaptive()));
         }));
   }
 }
@@ -86,15 +86,20 @@ class ExceptionWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ListView(
-        children: [
-          const Icon(Icons.cloud_off),
-          const SizedBox.square(dimension: 16),
-          Text("An error has occurred ${error.error}"),
-          const SizedBox.square(dimension: 16),
-          if (onTap != null) OutlinedButton(onPressed: onTap, child: const Text("Retry"))
-        ],
+    return SingleChildScrollView(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox.square(dimension: 32),
+
+            const Icon(Icons.cloud_off),
+            const SizedBox.square(dimension: 16),
+            const Text("An error has occurred "),
+            const SizedBox.square(dimension: 16),
+            if (onTap != null) OutlinedButton(onPressed: onTap, child: const Text("Retry"))
+          ],
+        ),
       ),
     );
   }

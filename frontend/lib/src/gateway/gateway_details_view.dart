@@ -56,8 +56,10 @@ class GatewayDetailsView extends ConsumerWidget {
                 }, childCount: peripherals.length))
             ]);
           },
-          error: (error) => ExceptionWidget(error),
-          loading: (loading) => const CircularProgressIndicator.adaptive()),
+          error: (error) => ExceptionWidget(error, onTap: () {
+                ref.refresh(gatewayDetailsProvider(id));
+              }),
+          loading: (loading) => const Center(child: CircularProgressIndicator.adaptive())),
     );
   }
 }
@@ -97,9 +99,7 @@ class PeripheralWidget extends StatelessWidget {
 
     return Card(
       child: ListTile(
-        leading: Tooltip(
-            message: peripheral.status?.name,
-            child: Icon(peripheral.status?.icon)),
+        leading: Tooltip(message: peripheral.status?.name, child: Icon(peripheral.status?.icon)),
         title: Text(peripheral.vendor),
         subtitle: Text(createdDate != null ? MaterialLocalizations.of(context).formatCompactDate(createdDate) : ""),
       ),
