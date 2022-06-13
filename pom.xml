@@ -88,8 +88,10 @@
 
                         <configuration>
 
-                            <target>
-
+                            <target unless="skip.frontend">
+      
+                <echo message="To skip me, just call mvn -Dskip.frontend=true"/>
+           
                                 <copy todir="${project.build.directory}/classes/static">
 
                                     <fileset dir="${project.basedir}/frontend/build/web"/>
