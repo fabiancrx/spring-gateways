@@ -22,8 +22,8 @@ jobs:
       - name: Maven Verify
         run: mvn -B clean verify -Dskip.frontend=true
 
-  frontend:
-    name: Build frontend
+  artifact:
+    name: Publish - GitHub Packages
     runs-on: ubuntu-latest
     needs: [test]
 
@@ -38,18 +38,6 @@ jobs:
           flutter-version: "3.0.0"
       - name: Build web static assets
         run: sh ./build_frontend.sh
-
-  artifact:
-    name: Publish - GitHub Packages
-    runs-on: ubuntu-latest
-    needs: [test,frontend]
-
-    steps:
-      - uses: actions/checkout@v1
-      - name: Set up JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: 17
       - name: Publish artifact on GitHub Packages
         run: mvn -B clean deploy -DskipTests 
         env:
