@@ -13,8 +13,11 @@ the business logic and requirements of the project.
 You can visit `http://<BASEURL>/api/swagger-ui/index.html ` to find the OpenApi definition.
 Usually is at http://localhost:8080/api/swagger-ui/index.html
 ## Dependencies
+**Required**
 Java SDK 1.17 or later
 
+**Optional**
+[Flutter 3.0](https://docs.flutter.dev/get-started/install)
 ## Running tests
 
 ```sh
@@ -32,4 +35,13 @@ java -jar target/musalapp-0.0.1-SNAPSHOT.jar
 ### On Docker
 ```sh
 docker-compose up 
+```
+
+### With optional frontend
+
+### On Linux
+```sh
+sh ./build_frontend.sh
+./mvnw clean install
+java -jar target/musalapp-0.0.1-SNAPSHOT.jar
 ```
