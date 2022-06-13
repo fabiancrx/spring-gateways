@@ -18,9 +18,9 @@ jobs:
         with:
           java-version: 17
       - name: Maven Package
-        run: mvn -B clean package -DskipTests
+        run: mvn -B clean package -DskipTests -Dskip.frontend=true
       - name: Maven Verify
-        run: mvn -B clean verify
+        run: mvn -B clean verify -Dskip.frontend=true
 
   artifact:
     name: Publish - GitHub Packages
@@ -34,6 +34,6 @@ jobs:
         with:
           java-version: 17
       - name: Publish artifact on GitHub Packages
-        run: mvn -B clean deploy -DskipTests
+        run: mvn -B clean deploy -DskipTests -Dskip.frontend=true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
