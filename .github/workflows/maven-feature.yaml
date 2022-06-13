@@ -21,3 +21,5 @@ jobs:
         run: mvn -B clean package -DskipTests
       - name: Maven Verify
         run: mvn -B clean verify
+      - uses: actions/checkout@master
+      - uses: codecov/codecov-action@v2
