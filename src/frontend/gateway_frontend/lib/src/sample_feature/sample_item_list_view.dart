@@ -5,7 +5,6 @@ import 'package:gateway_frontend/src/gateway/router/app_router.dart';
 import 'package:go_router/go_router.dart';
 import 'package:openapi/openapi.dart';
 
-
 final gatewayProvider = FutureProvider<List<Gateway>>((ref) async {
   final page = Pageable();
   final response = await ref.read(apiProvider).getGatewayControllerApi().browse(pageable: page);
@@ -35,11 +34,7 @@ class SampleItemListView extends StatelessWidget {
                 // Navigate to the settings page. If the user leaves and returns
                 // to the app after it has been killed while running in the
                 // background, the navigation stack is restored.
-                context.goNamed(
-                  AppRoute.settings.name,
-
-                );
-
+                context.goNamed(AppRoute.settings.name);
               },
             ),
           ],
@@ -66,7 +61,6 @@ class SampleItemListView extends StatelessWidget {
 
                     return Tooltip(
                       message: "Id: ${item.serialNumber}",
-
                       child: ListTile(
                           title: Text(item.name),
                           leading: const CircleAvatar(
@@ -78,11 +72,11 @@ class SampleItemListView extends StatelessWidget {
                             // Navigate to the details page. If the user leaves and returns to
                             // the app after it has been killed while running in the
                             // background, the navigation stack is restored.
-                            if(item.id!=null) {
+                            if (item.id != null) {
                               context.goNamed(
-                              AppRoute.gateway.name,
-                              params: {'id': "${item.id}"},
-                            );
+                                AppRoute.gateway.name,
+                                params: {'id': "${item.id}"},
+                              );
                             }
                           }),
                     );

@@ -34,11 +34,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: 'settings',
             name: AppRoute.settings.name,
-            pageBuilder: (context, state) => MaterialPage(
-              key: state.pageKey,
-              fullscreenDialog: true,
-              child: SettingsView(controller: ref.read(settingsProvider)),
-            ),
+            builder: (context, state) {
+              return SettingsView(controller: ref.read(settingsProvider));
+            },
           ),
         ],
       ),
