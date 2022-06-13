@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
+
+
+
 /// Displays detailed information about a SampleItem.
 class SampleItemDetailsView extends StatelessWidget {
-  const SampleItemDetailsView({Key? key}) : super(key: key);
+  final int id;
+  const SampleItemDetailsView({Key? key, required this.id}) : super(key: key);
 
-  static const routeName = '/sample_item';
+  static const routeName = '/gateway';
 
   @override
   Widget build(BuildContext context) {
@@ -12,9 +16,15 @@ class SampleItemDetailsView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Item Details'),
       ),
-      body: const Center(
-        child: Text('More Information Here'),
-      ),
+      body: CustomScrollView(slivers: [
+        SliverList(delegate: SliverChildListDelegate([
+
+
+
+        ])),
+
+
+      ]),
     );
   }
 }
