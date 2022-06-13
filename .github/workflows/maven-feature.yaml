@@ -18,9 +18,9 @@ jobs:
         with:
           java-version: 1.17
       - name: Maven Package
-        run: ./mvnw -B clean package -DskipTests -Dskip.frontend=true
+        run: mvn -B clean package -DskipTests -Dskip.frontend=true
       - name: Maven Verify
-        run: ./mvnw -B clean verify -Dskip.frontend=true
+        run: mvn -B clean verify -Dskip.frontend=true
       - uses: codecov/codecov-action@v2
         with:
           file: ./target/site/jacoco/jacoco.xml
