@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gateway_frontend/src/gateway/gateway_provider.dart';
+import 'package:gateway_frontend/src/sample_feature/sample_item_list_view.dart';
+import 'package:openapi/openapi.dart';
 
+final gatewayDetailsProvider = FutureProvider.family<Gateway, int>((ref, id) async {
+  final response = await ref.read(apiProvider).getGatewayControllerApi().read(id: id);
 
-
+  final gateway = response.data;
+  if (gateway == null) throw Exception("");
+  return gateway;
+});
 
 /// Displays detailed information about a SampleItem.
 class SampleItemDetailsView extends StatelessWidget {
   final int id;
+
   const SampleItemDetailsView({Key? key, required this.id}) : super(key: key);
 
   static const routeName = '/gateway';
@@ -13,18 +23,73 @@ class SampleItemDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Item Details'),
+      appBar: AppBar(title: const Text('Item Details')),
+      body: Consumer(
+        builder: (context, ref, child) {
+          final gateway = ref.watch(gatewayDetailsProvider(id));
+
+          return gateway.map(
+              data: (data) {
+                final item = data.value;
+                final peripherals = item.peripherals?.toList();
+                final hasPeripherals = peripherals != null && peripherals.isNotEmpty;
+
+                return CustomScrollView(slivers: [
+                  SliverList(
+                      delegate: SliverChildListDelegate([
+                    ListTile(title: Text("Name"), subtitle: Text(item.name)),
+                    if (item.ipv4 != null) ListTile(title: Text("IPv4 Address"), subtitle: Text(item.ipv4 ?? "")),
+                    ListTile(title: Text("Serial Number"), subtitle: Text(item.serialNumber)),
+                    if (!hasPeripherals)
+                      Column(
+                        children: [
+                          Icon(Icons.block),
+                          SizedBox.square(dimension: 16),
+                          Text("This gateway has no peripherals")
+                        ],
+                      ),
+                    if (hasPeripherals) Tooltip(
+                        message: "${peripherals.length} out of 10 peripherals",
+                        child: LinearProgressIndicator(value: peripherals.length / 10))
+                  ])),
+                  if (hasPeripherals)
+                    SliverList(
+                        delegate: SliverChildBuilderDelegate((context, index) {
+                      final peripheral = peripherals.elementAt(index);
+                      return PeripheralWidget(peripheral: peripheral);
+                    }, childCount: peripherals.length))
+                ]);
+              },
+              error: (error) => ExceptionWidget(error),
+              loading: (loading) => CircularProgressIndicator.adaptive());
+        },
       ),
-      body: CustomScrollView(slivers: [
-        SliverList(delegate: SliverChildListDelegate([
+    );
+  }
+}
 
+extension PeripheralStatusEnumX on PeripheralStatusEnum {
+  IconData get icon {
+    if (this == PeripheralStatusEnum.ONLINE) return Icons.signal_cellular_4_bar_sharp;
+    return Icons.signal_cellular_connected_no_internet_0_bar;
+  }
+}
 
+class PeripheralWidget extends StatelessWidget {
+  final Peripheral peripheral;
 
-        ])),
+  const PeripheralWidget({Key? key, required this.peripheral}) : super(key: key);
 
+  @override
+  Widget build(BuildContext context) {
+    final createdDate = peripheral.created;
 
-      ]),
+    return Card(
+      child: ListTile(
+        leading: Icon(peripheral.status?.icon),
+        title: Text(peripheral.vendor),
+        subtitle: Text(createdDate != null ? MaterialLocalizations.of(context).formatCompactDate(createdDate) : ""),
+      ),
     );
   }
 }

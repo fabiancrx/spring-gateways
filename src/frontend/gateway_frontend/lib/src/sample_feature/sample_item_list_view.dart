@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gateway_frontend/src/gateway/gateway_provider.dart';
+import 'package:gateway_frontend/src/gateway/router/app_router.dart';
+import 'package:go_router/go_router.dart';
 import 'package:openapi/openapi.dart';
 
-import '../settings/settings_view.dart';
-import 'sample_item_details_view.dart';
 
 final gatewayProvider = FutureProvider<List<Gateway>>((ref) async {
   final page = Pageable();
@@ -35,7 +35,11 @@ class SampleItemListView extends StatelessWidget {
                 // Navigate to the settings page. If the user leaves and returns
                 // to the app after it has been killed while running in the
                 // background, the navigation stack is restored.
-                Navigator.restorablePushNamed(context, SettingsView.routeName);
+                context.goNamed(
+                  AppRoute.settings.name,
+
+                );
+
               },
             ),
           ],
@@ -62,6 +66,7 @@ class SampleItemListView extends StatelessWidget {
 
                     return Tooltip(
                       message: "Id: ${item.serialNumber}",
+
                       child: ListTile(
                           title: Text(item.name),
                           leading: const CircleAvatar(
@@ -73,10 +78,12 @@ class SampleItemListView extends StatelessWidget {
                             // Navigate to the details page. If the user leaves and returns to
                             // the app after it has been killed while running in the
                             // background, the navigation stack is restored.
-                            Navigator.restorablePushNamed(
-                              context,
-                              SampleItemDetailsView.routeName,
+                            if(item.id!=null) {
+                              context.goNamed(
+                              AppRoute.gateway.name,
+                              params: {'id': "${item.id}"},
                             );
+                            }
                           }),
                     );
                   },
