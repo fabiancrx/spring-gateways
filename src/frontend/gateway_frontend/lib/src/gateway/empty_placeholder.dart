@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:gateway_frontend/src/gateway/router/app_router.dart';
+import 'package:gateway_frontend/src/router/app_router.dart';
 import 'package:go_router/go_router.dart';
 
 /// Placeholder widget showing a message and CTA to go back to the home screen.

@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gateway_frontend/main.dart';
-import 'package:gateway_frontend/src/gateway/router/not_found_screen.dart';
-import 'package:gateway_frontend/src/sample_feature/sample_item_details_view.dart';
-import 'package:gateway_frontend/src/sample_feature/sample_item_list_view.dart';
+import 'package:gateway_frontend/src/gateway/gateway_details_view.dart';
+import 'package:gateway_frontend/src/gateway/gateway_list_view.dart';
+import 'package:gateway_frontend/src/router/not_found_screen.dart';
 import 'package:gateway_frontend/src/settings/settings_view.dart';
 import 'package:go_router/go_router.dart';
 
@@ -21,14 +20,14 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/',
         name: AppRoute.home.name,
-        builder: (context, state) => const SampleItemListView(),
+        builder: (context, state) => const GatewayListView(),
         routes: [
           GoRoute(
             path: 'gateway/:id',
             name: AppRoute.gateway.name,
             builder: (context, state) {
               final gatewayId = int.parse(state.params['id']!);
-              return SampleItemDetailsView(id: gatewayId);
+              return GatewayDetailsView(id: gatewayId);
             },
           ),
           GoRoute(

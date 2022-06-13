@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gateway_frontend/src/gateway/gateway_provider.dart';
-import 'package:gateway_frontend/src/gateway/router/app_router.dart';
+import 'package:gateway_frontend/src/router/app_router.dart';
 import 'package:go_router/go_router.dart';
 import 'package:openapi/openapi.dart';
 
@@ -15,8 +15,8 @@ final gatewayProvider = FutureProvider<List<Gateway>>((ref) async {
 });
 
 /// Displays a list of SampleItems.
-class SampleItemListView extends StatelessWidget {
-  const SampleItemListView({
+class GatewayListView extends StatelessWidget {
+  const GatewayListView({
     Key? key,
   }) : super(key: key);
 
@@ -26,7 +26,7 @@ class SampleItemListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Sample Items'),
+          title: const Text('List of gateways'),
           actions: [
             IconButton(
               icon: const Icon(Icons.settings),

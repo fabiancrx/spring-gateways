@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gateway_frontend/src/gateway/gateway_provider.dart';
-import 'package:gateway_frontend/src/sample_feature/sample_item_list_view.dart';
+import 'package:gateway_frontend/src/gateway/gateway_list_view.dart';
 import 'package:openapi/openapi.dart';
 
 final gatewayDetailsProvider = FutureProvider.family<Gateway, int>((ref, id) async {
@@ -13,10 +13,10 @@ final gatewayDetailsProvider = FutureProvider.family<Gateway, int>((ref, id) asy
 });
 
 /// Displays detailed information about a SampleItem.
-class SampleItemDetailsView extends ConsumerWidget {
+class GatewayDetailsView extends ConsumerWidget {
   final int id;
 
-  const SampleItemDetailsView({Key? key, required this.id}) : super(key: key);
+  const GatewayDetailsView({Key? key, required this.id}) : super(key: key);
 
   static const routeName = '/gateway';
 
@@ -25,7 +25,7 @@ class SampleItemDetailsView extends ConsumerWidget {
     final gateway = ref.watch(gatewayDetailsProvider(id));
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Item Details')),
+      appBar: AppBar(title: Text(gateway.value?.name ?? 'Gateway Details')),
       body: gateway.map(
           data: (data) {
             final item = data.value;
@@ -36,12 +36,12 @@ class SampleItemDetailsView extends ConsumerWidget {
               SliverList(
                   delegate: SliverChildListDelegate([
                 PeripheralProgressIndicator(current: peripherals?.length),
-                ListTile(title: Text("Name"), subtitle: Text(item.name)),
-                if (item.ipv4 != null) ListTile(title: Text("IPv4 Address"), subtitle: Text(item.ipv4 ?? "")),
-                ListTile(title: Text("Serial Number"), subtitle: Text(item.serialNumber)),
+                ListTile(title: const Text("Name"), subtitle: Text(item.name)),
+                if (item.ipv4 != null) ListTile(title: const Text("IPv4 Address"), subtitle: Text(item.ipv4 ?? "")),
+                ListTile(title: const Text("Serial Number"), subtitle: Text(item.serialNumber)),
                 if (!hasPeripherals)
                   Column(
-                    children: [
+                    children: const [
                       Icon(Icons.block),
                       SizedBox.square(dimension: 16),
                       Text("This gateway has no peripherals")
@@ -57,7 +57,7 @@ class SampleItemDetailsView extends ConsumerWidget {
             ]);
           },
           error: (error) => ExceptionWidget(error),
-          loading: (loading) => CircularProgressIndicator.adaptive()),
+          loading: (loading) => const CircularProgressIndicator.adaptive()),
     );
   }
 }
@@ -97,7 +97,9 @@ class PeripheralWidget extends StatelessWidget {
 
     return Card(
       child: ListTile(
-        leading: Icon(peripheral.status?.icon),
+        leading: Tooltip(
+            message: peripheral.status?.name,
+            child: Icon(peripheral.status?.icon)),
         title: Text(peripheral.vendor),
         subtitle: Text(createdDate != null ? MaterialLocalizations.of(context).formatCompactDate(createdDate) : ""),
       ),
