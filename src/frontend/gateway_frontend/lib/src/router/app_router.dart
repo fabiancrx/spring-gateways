@@ -16,6 +16,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/',
     debugLogDiagnostics: false,
+    urlPathStrategy: UrlPathStrategy.hash,
     routes: [
       GoRoute(
         path: '/',
@@ -41,7 +42,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
     ],
     errorBuilder: (context, state) {
-
       return const NotFoundScreen();
     },
   );

@@ -7,7 +7,7 @@ import 'src/settings/settings_controller.dart';
 import 'src/settings/settings_service.dart';
 
 void main() async {
-  GoRouter.setUrlPathStrategy(UrlPathStrategy.path);
+  GoRouter.setUrlPathStrategy(UrlPathStrategy.hash);
   runApp(const ProviderScope(child: MyApp()));
 }
 

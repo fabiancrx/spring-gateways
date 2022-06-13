@@ -31,29 +31,18 @@ class GatewayListView extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.settings),
               onPressed: () {
-                // Navigate to the settings page. If the user leaves and returns
-                // to the app after it has been killed while running in the
-                // background, the navigation stack is restored.
                 context.goNamed(AppRoute.settings.name);
               },
             ),
           ],
         ),
 
-        // To work with lists that may contain a large number of items, it’s best
-        // to use the ListView.builder constructor.
-        //
-        // In contrast to the default ListView constructor, which requires
-        // building all Widgets up front, the ListView.builder constructor lazily
-        // builds Widgets as they’re scrolled into view.
+
         body: Consumer(builder: (context, ref, child) {
           return ref.watch(gatewayProvider).map(
               data: (data) {
                 final items = data.value;
                 return ListView.builder(
-                  // Providing a restorationId allows the ListView to restore the
-                  // scroll position when a user leaves and returns to the app after it
-                  // has been killed while running in the background.
                   restorationId: 'sampleItemListView',
                   itemCount: items.length,
                   itemBuilder: (BuildContext context, int index) {
@@ -69,9 +58,7 @@ class GatewayListView extends StatelessWidget {
                           ),
                           subtitle: Text(item.ipv4 ?? ""),
                           onTap: () {
-                            // Navigate to the details page. If the user leaves and returns to
-                            // the app after it has been killed while running in the
-                            // background, the navigation stack is restored.
+
                             if (item.id != null) {
                               context.goNamed(
                                 AppRoute.gateway.name,
@@ -83,7 +70,9 @@ class GatewayListView extends StatelessWidget {
                   },
                 );
               },
-              error: (error) => ExceptionWidget(error),
+              error: (error) => ExceptionWidget(error, onTap: () {
+                    ref.refresh(gatewayProvider);
+                  }),
               loading: (loading) => const CircularProgressIndicator.adaptive());
         }));
   }
@@ -91,13 +80,22 @@ class GatewayListView extends StatelessWidget {
 
 class ExceptionWidget<T> extends StatelessWidget {
   final AsyncError<T> error;
+  final VoidCallback? onTap;
 
-  const ExceptionWidget(this.error, {Key? key}) : super(key: key);
+  const ExceptionWidget(this.error, {Key? key, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Placeholder(),
+    return Center(
+      child: ListView(
+        children: [
+          const Icon(Icons.cloud_off),
+          const SizedBox.square(dimension: 16),
+          Text("An error has occurred ${error.error}"),
+          const SizedBox.square(dimension: 16),
+          if (onTap != null) OutlinedButton(onPressed: onTap, child: const Text("Retry"))
+        ],
+      ),
     );
   }
 }
