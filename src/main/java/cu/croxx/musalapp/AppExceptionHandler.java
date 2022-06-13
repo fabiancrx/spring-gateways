@@ -2,6 +2,7 @@ package cu.croxx.musalapp;
 
 import cu.croxx.musalapp.exceptions.AppExceptionResponse;
 import cu.croxx.musalapp.exceptions.InvalidArgumentsException;
+import cu.croxx.musalapp.exceptions.TooManyPeripheralsException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,13 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_ACCEPTABLE);
     }
+    @ExceptionHandler(TooManyPeripheralsException.class)
+    public final ResponseEntity<AppExceptionResponse> handleInvalidArguments(TooManyPeripheralsException ex, WebRequest request) {
 
+        var exceptionResponse = new AppExceptionResponse(ex.getClass().getSimpleName(), request.getDescription(false), ex.getMessage());
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {

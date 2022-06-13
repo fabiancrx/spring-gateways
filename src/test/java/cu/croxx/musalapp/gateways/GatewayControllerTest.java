@@ -6,6 +6,7 @@ import cu.croxx.musalapp.exceptions.NotFoundException;
 import cu.croxx.musalapp.gateway.GatewayController;
 import cu.croxx.musalapp.gateway.GatewayService;
 import cu.croxx.musalapp.gateway.models.Gateway;
+import cu.croxx.musalapp.gateway.models.Peripheral;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -126,10 +127,26 @@ public class GatewayControllerTest {
         doThrow(new NotFoundException("")).when(gatewayService).delete(anyLong());
 
 
-      mvc.perform(delete("/gateways/7")
+        mvc.perform(delete("/gateways/7")
                         .contentType("application/json"))
                 .andDo(print())
                 .andExpect(status().isNotFound()).andReturn();
+
+
+    }
+
+    @Test
+    void showsAssociatedPeripheralsOfAGateway() throws Exception {
+        var gateway = new Gateway("123", "mockName", "2.22.2.22", List.of(new Peripheral(), new Peripheral()));
+        when(gatewayService.read(anyLong())).thenReturn(Optional.of(gateway));
+
+
+        mvc.perform(get("/gateways/7/peripherals")
+                        .contentType("application/json"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*]").isArray())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*]", hasSize(2)));
 
 
     }

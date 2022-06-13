@@ -2,6 +2,7 @@ package cu.croxx.musalapp.gateway;
 
 import cu.croxx.musalapp.exceptions.NotFoundException;
 import cu.croxx.musalapp.gateway.models.Gateway;
+import cu.croxx.musalapp.gateway.models.Peripheral;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Pageable;
@@ -62,6 +63,13 @@ public class GatewayController {
         gatewayService.delete(id);
     }
 
+    /////////// Peripherals
+    @GetMapping("/{id}/peripherals")
+    public List<Peripheral> browse(@PathVariable long id) {
+        var gateway = gatewayService.read(id);
+        if (gateway.isPresent()) return gateway.get().getPeripherals();
+        throw new NotFoundException("Gateway with id " + id + " not found");
+    }
 
 }
 
