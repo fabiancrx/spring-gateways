@@ -14,16 +14,19 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 @EnableSpringDataWebSupport
 public class GatewayConfig {
     @Bean
-    CommandLineRunner commandLineRunner(GatewayService service,PeripheralService ps) {
+    CommandLineRunner commandLineRunner(GatewayService service, PeripheralService ps) {
         return args -> {
             var huawei = new Gateway(
                     "1234",
                     "Huawei P-S80",
                     "10.0.0.48"
             );
-            var gw=service.add(huawei);
-            ps.addPeripheralToGateway(gw.getId(),new Peripheral("Microsoft"));
-            ps.addPeripheralToGateway(gw.getId(),new Peripheral("Apple"));
+            var thermos = new Gateway("5678", "Thermos", "10.0.2.8");
+            var gw = service.add(huawei);
+            service.add(thermos);
+
+            ps.addPeripheralToGateway(gw.getId(), new Peripheral("Microsoft"));
+            ps.addPeripheralToGateway(gw.getId(), new Peripheral("Apple"));
 
         };
 

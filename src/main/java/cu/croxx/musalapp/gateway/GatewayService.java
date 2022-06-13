@@ -25,9 +25,8 @@ public class GatewayService {
 
     public Slice<Gateway> browse(Pageable pageable) {
 
-        return gatewayRepository.findAll(pageable);
+        return gatewayRepository.findAllWithoutPeripherals(pageable);
     }
-
 
     public Optional<Gateway> read(long id) {
         return gatewayRepository.findById(id);
