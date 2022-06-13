@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @RestController
 public class MusalApplication {
-	@GetMapping("/")
-	public String home() {
-		return "Hello Docker World";
+	@GetMapping("/status")
+	public String status() {
+		return "online";
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(MusalApplication.class, args);
