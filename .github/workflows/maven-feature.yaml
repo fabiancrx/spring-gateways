@@ -23,3 +23,6 @@ jobs:
         run: mvn -B clean verify
       - uses: actions/checkout@master
       - uses: codecov/codecov-action@v2
+        with:
+          file: ./target/site/jacoco/jacoco.xml
+          flags: unittests
