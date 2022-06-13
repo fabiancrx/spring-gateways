@@ -3,6 +3,7 @@ package cu.croxx.musalapp.gateway;
 
 import cu.croxx.musalapp.gateway.models.Gateway;
 import cu.croxx.musalapp.gateway.models.Peripheral;
+import cu.croxx.musalapp.gateway.models.Status;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +27,7 @@ public class GatewayConfig {
             service.add(thermos);
 
             ps.addPeripheralToGateway(gw.getId(), new Peripheral("Microsoft"));
-            ps.addPeripheralToGateway(gw.getId(), new Peripheral("Apple"));
+            ps.addPeripheralToGateway(gw.getId(), new Peripheral("Apple", Status.ONLINE));
 
         };
 
