@@ -36,7 +36,7 @@ Java SDK 1.17
 #### On Linux
 ```sh 
 ./mvnw clean install -Dskip.frontend=true
-java -jar target/musalapp-0.0.2-SNAPSHOT.jar
+java -jar target/musalapp-0.0.3-SNAPSHOT.jar
 ```
 
 ### With optional frontend
@@ -45,7 +45,7 @@ java -jar target/musalapp-0.0.2-SNAPSHOT.jar
 ```sh
 sh ./build_frontend.sh
 ./mvnw clean install
-java -jar target/musalapp-0.0.2-SNAPSHOT.jar
+java -jar target/musalapp-0.0.3-SNAPSHOT.jar
 ```
 
 ### Fetch .jar artifact from github
