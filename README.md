@@ -49,5 +49,4 @@ java -jar target/musalapp-0.0.3-SNAPSHOT.jar
 ```
 
 ### Fetch .jar artifact from github
-It is also possible to download and directly execute the .jar. It can be fetched [from github]( 
-https://github.com/fabiancrx/spring-gateways/packages/) and executed easily as `java -jar artifact.jar`
+It is also possible to download and directly execute the .jar. It can be fetched [from github](https://github.com/fabiancrx/spring-gateways/releases/download/untagged-13dd6c451dbb55352b6b/musalapp-0.0.3-SNAPSHOT.jar) and executed easily as `java -jar artifact.jar`
