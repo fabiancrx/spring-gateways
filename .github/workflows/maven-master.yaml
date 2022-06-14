@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 'master'
-
 jobs:
 
   test:
@@ -18,9 +17,9 @@ jobs:
         with:
           java-version: 17
       - name: Maven Package
-        run: mvn -B clean package -DskipTests
+        run: mvn -B clean package -DskipTests -Dskip.frontend=true
       - name: Maven Verify
-        run: mvn -B clean verify
+        run: mvn -B clean verify -Dskip.frontend=true
 
   artifact:
     name: Publish - GitHub Packages
@@ -33,7 +32,12 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 17
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: "3.0.0"
+      - name: Build web static assets
+        run: sh ./build_frontend.sh
       - name: Publish artifact on GitHub Packages
-        run: mvn -B clean deploy -DskipTests
+        run: mvn -B clean deploy -DskipTests 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

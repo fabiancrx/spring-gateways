@@ -8,7 +8,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-@RestController("peripherals")
+@RestController
+@RequestMapping("/peripherals")
 public class PeripheralController {
     private final PeripheralService peripheralService;
 
